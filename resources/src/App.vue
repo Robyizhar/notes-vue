@@ -1,0 +1,176 @@
+<template>
+  <div id="app">
+    <div class="content">
+      <div class="logo">
+        <a href="https://facebook/real.d.robhiie">
+          <h2>TulisCatatanmu.</h2>
+          <span>com</span>
+        </a>
+      </div>
+      <div class="frame-notes">
+        <button @click="noteBaru" class="bg-success btn btn-new-note">
+              Add Notes
+        </button>
+        <ListNotes :propNotes="notes" />
+      </div>
+    </div>
+
+    <div class="input">
+         <InputNotes :propSaveNote="saveNote" :propEditNote="updateNote" :propDelNote="delNote" />
+    </div>  
+  
+  </div>
+</template>
+
+<script>
+
+import ListNotes from './components/ListNotes.vue'
+import InputNotes from './components/InputNotes.vue'
+
+export default {
+  name: 'App',
+  data: function () {
+        return {
+            
+        }
+    },
+  components: {
+    ListNotes,
+    InputNotes
+  },
+  methods: {
+       noteBaru(){
+            this.showNote = {idNote: 0, namaNote: '', descNote: ''}
+       },
+       saveNote(namaNote, descNote){
+          let newId = 0;
+          if (this.notes.length === 0) {
+               newId = 1;
+          } else {
+               newId = this.notes[this.notes.length - 1].idNote + 1; 
+          }
+            
+          let newNote = {idNote:newId, namaNote, descNote}
+          this.notes.push(newNote);
+          // this.editNote(newId);
+       },
+       updateNote(id, judul, deskripsi){
+            let indexNote = this.notes.findIndex ( note => note.idNote === id );
+            this.notes[indexNote].namaNote = judul;
+            this.notes[indexNote].descNote = deskripsi;
+          //   console.log(judul, deskripsi);
+          //   console.log(indexNote);
+       },
+       delNote(id){
+            let indexNote = this.notes.findIndex ( note => note.idNote === id );
+            this.notes.splice(indexNote, 1);
+       }
+  }
+}
+</script>
+
+<style>
+body{
+     margin:0px;
+     overflow:hidden;
+}
+#app {
+     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+     color: #2c3e50;
+     padding:0px;
+
+     display:flex;
+     width:100%;
+}
+
+.content{
+     width: 400px;
+     background: #f7f7f7;
+     color: #616161;
+}
+.logo{
+     padding: 25px 15px;
+     border-bottom: 1px solid gainsboro;
+}
+.logo a{
+     text-decoration:none;
+}
+.logo a h2{
+     margin: 0px;
+     display: inline;
+     margin-right: 5px;
+     font-size: 35px;
+     text-transform: capitalize;
+     color: #757575;
+}
+.logo a span{
+     font-size: 12px;
+     letter-spacing: 1px;
+     text-transform: uppercase;
+     color:#139e5f;
+}
+.frame-notes{
+     overflow-y: scroll;
+     overflow-x: hidden;
+     height: 85vh;
+}
+.bg-success{
+     background: #219a63;
+     color: white;
+     outline:none;
+}
+.bg-success:hover{
+     background:#24b774;
+     color: white;
+}
+.bg-danger{
+     background:#b50000;
+     color: white;
+}
+.bg-danger:hover{
+     background:#c50000;
+}
+.btn{
+     border: none;
+     font-size: 12px;
+     text-align: center;
+     letter-spacing: 1px;
+     cursor: pointer;
+     border-radius: 2px;
+     padding: 7px 25px;
+     outline:none;
+}
+.btn-new-note{
+     width: 90%;
+     padding: 12px 10px;
+     margin: 10px 15px;
+     text-align: left !important;
+}
+
+.input{
+     width: 100%;
+     overflow-y: scroll;
+     height: 100vh;
+     border-left: 1px solid gainsboro;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>
