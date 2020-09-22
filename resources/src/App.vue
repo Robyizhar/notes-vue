@@ -16,7 +16,7 @@
     </div>
 
     <div class="input">
-         <InputNotes :propSaveNote="saveNote" :propEditNote="updateNote" :propDelNote="delNote" />
+         <InputNotes :propSaveNote="saveNote" :propEditNote="updateNote" />
     </div>  
   
   </div>
@@ -60,10 +60,6 @@ export default {
             this.notes[indexNote].descNote = deskripsi;
           //   console.log(judul, deskripsi);
           //   console.log(indexNote);
-       },
-       delNote(id){
-            let indexNote = this.notes.findIndex ( note => note.idNote === id );
-            this.notes.splice(indexNote, 1);
        }
   }
 }

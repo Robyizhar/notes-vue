@@ -30,6 +30,13 @@ export default {
             let showNote = this.notes.find( note => note.idNote === id );
             this.$root.$emit('emitNote', showNote);
         }
+    },
+    mounted(){
+        this.$root.$on('emitDelNote', dataNote => {
+            console.log(dataNote);
+            let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.id );
+            this.notes.splice(indexNote, 1);
+        })
     }
 }
 </script>

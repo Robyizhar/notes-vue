@@ -23,9 +23,6 @@ export default {
         },
         propEditNote : {
             type : Function
-        },
-        propDelNote : {
-            type : Function
         }
         
     },
@@ -47,7 +44,8 @@ export default {
             
         },
         delNote(){
-            this.propDelNote(this.id);
+            let dataNote = {id : this.id}
+            this.$root.$emit('emitDelNote', dataNote);
             this.emptyNote();
         },
         emptyNote(){
