@@ -28,22 +28,42 @@ export default {
     methods: {
         noteClick(id){
             let showNote = this.notes.find( note => note.idNote === id );
+            showNote.mode = 'update';
             this.$root.$emit('emitNote', showNote);
+        },
+        makeNewId(){
+            let newId = 0;
+            if (this.notes.length === 0) {
+                newId = 1
+            } else {
+                newId = this.notes[this.notes.length - 1].idNote + 1;
+            }
+            return newId;
         }
     },
     mounted(){
         this.$root.$on('emitDelNote', dataNote => {
             // console.log(dataNote);
-            let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.id );
-            this.notes.splice(indexNote, 1);
-            
+            if (dataNote.id === 0) {
+                alert('Silahkan pilih data yang akan dihapus');
+            } else {
+                let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.id );
+                this.notes.splice(indexNote, 1);
+            }
         });
         this.$root.$on('emitUpdNote', dataNote => {
             // console.log(dataNote);
             let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.idNote );
             this.notes[indexNote].namaNote = dataNote.namaNote;
             this.notes[indexNote].descNote = dataNote.descNote;
-        })
+        });
+        this.$root.$on('emitSavedNote', dataNote =>{
+            // console.log(dataNote);
+            let newId = this.makeNewId();
+            let newNote = {idNote:newId, namaNote: dataNote.namaNote, descNote: dataNote.descNote}
+            this.notes.push(newNote);
+            this.noteClick(newNote.idNote);
+        });
     }
 }
 </script>

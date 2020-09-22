@@ -11,7 +11,7 @@
         <button @click="noteBaru" class="bg-success btn btn-new-note">
               Add Notes
         </button>
-        <ListNotes :propNotes="notes" />
+        <ListNotes />
       </div>
     </div>
 
@@ -40,7 +40,8 @@ export default {
   },
   methods: {
        noteBaru(){
-            this.showNote = {idNote: 0, namaNote: '', descNote: ''}
+            let showNote = {idNote: 0, namaNote: '', descNote: '', mode: 'save'}
+            this.$root.$emit('emitEmptyNote', showNote);
        },
        saveNote(namaNote, descNote){
           let newId = 0;

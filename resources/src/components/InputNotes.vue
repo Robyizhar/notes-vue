@@ -3,7 +3,8 @@
         <form @submit="submitNote">
              <div class="menu">
                 <button type="button" @click="delNote" class="bg-danger btn btn-delete">Hapus</button>
-                <button type="submit" class="bg-success btn">Save</button>
+                <button type="submit" class="bg-success btn" v-if="mode == 'save'">Save</button>
+                <button type="button" @click="upNote" class="bg-success btn" v-if="mode == 'update'">Update</button>
             </div>
             <div class="content-input">
                 <input type="text" class="text" placeholder="ID" v-model="id">
@@ -18,9 +19,6 @@
 export default {
     name: 'InputOfNotes',
     props: {
-        propSaveNote : {
-            type: Function
-        },
         propEditNote : {
             type : Function
         }
@@ -30,24 +28,27 @@ export default {
         return {
             id : 0,
             judul : '',
-            deskripsi : ''
+            deskripsi : '',
+            mode : 'save'
         }
     },
     methods : {
-        submitNote(e){
-            e.preventDefault();
+        dataNote(){
             let dataNote = {
                 idNote : this.id,
                 namaNote : this.judul,
                 descNote : this.deskripsi
             }
-            if (this.id === 0) {
-                this.propSaveNote(this.judul, this.deskripsi);    
-            }else{
-                // this.propEditNote(this.id, this.judul, this.deskripsi);
-                this.$root.$emit('emitUpdNote', dataNote);
-            }
-            
+            return dataNote;
+        },
+        submitNote(e){
+            e.preventDefault(); 
+            let dataNote = this.dataNote();
+            this.$root.$emit('emitSavedNote', dataNote);            
+        },
+        upNote(){
+            let dataNote = this.dataNote();
+            this.$root.$emit('emitUpdNote', dataNote);
         },
         delNote(){
             let dataNote = {id : this.id}
@@ -61,10 +62,18 @@ export default {
         }
     },
     mounted(){
-        this.$root.$on('emitNote', note => {
-            this.id = note.idNote;
-            this.judul = note.namaNote;
-            this.deskripsi = note.descNote;
+        this.$root.$on('emitNote', showNote => {
+            this.id = showNote.idNote;
+            this.judul = showNote.namaNote;
+            this.deskripsi = showNote.descNote;
+            this.mode = showNote.mode;
+
+        });
+        this.$root.$on('emitEmptyNote', showEmptyNote => {
+            this.id = showEmptyNote.idNote;
+            this.judul = showEmptyNote.namaNote;
+            this.deskripsi = showEmptyNote.descNote;
+            this.mode = showEmptyNote.mode;
 
         });
     }
