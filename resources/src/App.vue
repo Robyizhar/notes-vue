@@ -16,7 +16,7 @@
     </div>
 
     <div class="input">
-         <InputNotes :propSaveNote="saveNote" :propEditNote="updateNote" />
+         <InputNotes :propSaveNote="saveNote" />
     </div>  
   
   </div>
@@ -53,13 +53,6 @@ export default {
           let newNote = {idNote:newId, namaNote, descNote}
           this.notes.push(newNote);
           // this.editNote(newId);
-       },
-       updateNote(id, judul, deskripsi){
-            let indexNote = this.notes.findIndex ( note => note.idNote === id );
-            this.notes[indexNote].namaNote = judul;
-            this.notes[indexNote].descNote = deskripsi;
-          //   console.log(judul, deskripsi);
-          //   console.log(indexNote);
        }
   }
 }

@@ -33,9 +33,16 @@ export default {
     },
     mounted(){
         this.$root.$on('emitDelNote', dataNote => {
-            console.log(dataNote);
+            // console.log(dataNote);
             let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.id );
             this.notes.splice(indexNote, 1);
+            
+        });
+        this.$root.$on('emitUpdNote', dataNote => {
+            // console.log(dataNote);
+            let indexNote = this.notes.findIndex ( note => note.idNote === dataNote.idNote );
+            this.notes[indexNote].namaNote = dataNote.namaNote;
+            this.notes[indexNote].descNote = dataNote.descNote;
         })
     }
 }

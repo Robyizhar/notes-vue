@@ -36,10 +36,16 @@ export default {
     methods : {
         submitNote(e){
             e.preventDefault();
+            let dataNote = {
+                idNote : this.id,
+                namaNote : this.judul,
+                descNote : this.deskripsi
+            }
             if (this.id === 0) {
                 this.propSaveNote(this.judul, this.deskripsi);    
             }else{
-                this.propEditNote(this.id, this.judul, this.deskripsi);
+                // this.propEditNote(this.id, this.judul, this.deskripsi);
+                this.$root.$emit('emitUpdNote', dataNote);
             }
             
         },
